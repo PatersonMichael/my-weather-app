@@ -9,10 +9,14 @@ import styled from "styled-components";
 // Holds location state (taken from Search)
 // Passes location state as props to components that need it for Weather fetch
 function WeatherApp() {
+  const handleOnSearchChange = (searchData) => {
+    console.log(searchData);
+  };
+
   return (
     <Wrapper>
       {/* <img src={logo} alt="test" /> */}
-      <Search />
+      <Search onSearchChange={handleOnSearchChange} />
       <CurrentTemperature />
       <ForecastSlide />
     </Wrapper>
