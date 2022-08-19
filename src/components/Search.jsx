@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { AsyncPaginate } from "react-select-async-paginate";
-import { GEO_API_URL, geoApiOptions } from "../api";
+import { GEO_API_URL, geoApiOptions } from "../GeoApi";
 
 // takes user input in search bar
 // fetches associated data from GeoDB Cities API
@@ -21,7 +21,10 @@ function Search({ onSearchChange }) {
           options: response.data.map((city) => {
             return {
               value: `${city.latitude} ${city.longitude}`,
+              lat: `${city.latitude}`,
+              lon: `${city.longitude}`,
               label: `${city.name}, ${city.regionCode}, ${city.countryCode}`,
+              cityName: `${city.name}`,
             };
           }),
         };

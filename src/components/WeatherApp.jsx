@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import Search from "./Search";
 import ForecastSlide from "./ForecastSlide";
 import CurrentTemperature from "./CurrentTemperature";
@@ -9,15 +10,18 @@ import styled from "styled-components";
 // Holds location state (taken from Search)
 // Passes location state as props to components that need it for Weather fetch
 function WeatherApp() {
+  const [locationState, setLocationState] = useState({});
+
   const handleOnSearchChange = (searchData) => {
-    console.log(searchData);
+    // console.log(searchData);
+    setLocationState(searchData);
   };
 
   return (
     <Wrapper>
       {/* <img src={logo} alt="test" /> */}
       <Search onSearchChange={handleOnSearchChange} />
-      <CurrentTemperature />
+      <CurrentTemperature handleLocationData={locationState} />
       <ForecastSlide />
     </Wrapper>
   );
