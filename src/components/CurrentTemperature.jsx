@@ -1,19 +1,42 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 // takes location data from WeatherApp
 // fetches necessary data from OpenWeather API
 // maps data to display current temp in C or F
-function CurrentTemperature() {
+function CurrentTemperature(props) {
+  // console.log(props.handleLocationData);
+
+  const [temperature = 0, setTemperature] = useState();
+  const [weather = "Weather data will display here", setWeather] = useState("");
+
+  const { cityName, lat, lon } = props.handleLocationData;
+  const loadWeatherData = () => {
+    return fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OW_API_KEY}&units=imperial`
+    )
+      .then((response) => response.json())
+      .then((weatherData) => {
+        // console.log(weatherData);
+        setTemperature(weatherData.main.temp);
+        setWeather(weatherData.weather[0].main);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  // console.log(`weather data is: ${loadWeatherData()}`);
+
   return (
     <TempContainer>
-      <div className="city-name">Dublin</div>
+      <div className="city-name">{cityName}</div>
       <div className="temp-phenomena-container">
-        <div className="temperature">76 F</div>
+        <div className="temperature" loadweatherdata={loadWeatherData()}>
+          {Math.floor(temperature)}
+        </div>
         <div className="phenomena">
-          <p>Cloudy</p>
-          <p>Humidity 40%</p>
-          <p>Chance of Rain at 8:00pm</p>
+          <p>{weather}</p>
+          <p></p>
         </div>
       </div>
 
@@ -58,8 +81,8 @@ const TempContainer = styled.div`
       padding-left: 1rem;
     }
     .phenomena {
-      font-size: 1rem;
-      padding: 0 1rem;
+      font-size: 1.5rem;
+      padding: 0 2rem;
     }
     .temp-phenomena-container {
       display: flex;
